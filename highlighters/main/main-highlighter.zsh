@@ -1160,7 +1160,8 @@ _zsh_highlight_main_highlighter_highlight_list()
     fi
     _zsh_highlight_main_add_region_highlight $start_pos $end_pos $style
   done
-  (( $#in_alias )) && in_alias=() _zsh_highlight_main_add_region_highlight $start_pos $end_pos $alias_style
+  # in_alias=() is not a precommand assignment to work around a 4.3.11 bug.
+  (( $#in_alias )) && { in_alias=(); _zsh_highlight_main_add_region_highlight $start_pos $end_pos $alias_style }
   (( in_param == 1 )) && in_param=0 _zsh_highlight_main_add_region_highlight $start_pos $end_pos $param_style
   [[ "$proc_buf" = (#b)(#s)(([[:space:]]|\\$'\n')#) ]]
   REPLY=$(( end_pos + ${#match[1]} - 1 ))
